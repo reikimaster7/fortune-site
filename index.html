@@ -15,15 +15,15 @@ body {
   position: relative;
 }
 
-/* 星の背景 */
+/* 星背景用キャンバス */
 #stars {
   position: absolute;
   top: 0; left: 0;
   width: 100%; height: 100%;
   z-index: 0;
+  pointer-events: none; /* ここがポイント */
 }
 
-/* タイトル */
 h1 {
   font-size: 40px;
   text-shadow: 0 0 20px #b388ff;
@@ -31,18 +31,16 @@ h1 {
   z-index: 1;
 }
 
-/* 名前入力欄 */
 input[type="text"] {
   padding: 10px;
   font-size: 18px;
   border-radius: 10px;
   border: none;
   margin-top: 20px;
-  position: relative;   /* canvasの上に出す */
-  z-index: 2;           /* canvas(0)より上に表示 */
+  position: relative;
+  z-index: 2; /* canvasより上 */
 }
 
-/* 占いボタン */
 button {
   padding: 15px 40px;
   font-size: 20px;
@@ -55,12 +53,11 @@ button {
   transition: 0.3s;
   margin-top: 20px;
   position: relative;
-  z-index: 2;  /* canvasの上 */
+  z-index: 2;
 }
 
 button:hover { transform: scale(1.1); }
 
-/* 占い結果表示 */
 #result {
   margin-top: 40px;
   font-size: 28px;
@@ -68,7 +65,7 @@ button:hover { transform: scale(1.1); }
   transform: translateY(20px);
   transition: 0.5s;
   position: relative;
-  z-index: 2;  /* canvasの上 */
+  z-index: 2;
 }
 
 .show {
@@ -79,7 +76,6 @@ button:hover { transform: scale(1.1); }
 </head>
 <body>
 
-<!-- 星背景用キャンバス -->
 <canvas id="stars"></canvas>
 
 <h1>🔮 神秘の占い 🔮</h1>
