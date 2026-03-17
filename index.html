@@ -23,6 +23,7 @@ body {
   z-index: 0;
 }
 
+/* タイトル */
 h1 {
   font-size: 40px;
   text-shadow: 0 0 20px #b388ff;
@@ -30,14 +31,18 @@ h1 {
   z-index: 1;
 }
 
+/* 名前入力欄 */
 input[type="text"] {
   padding: 10px;
   font-size: 18px;
   border-radius: 10px;
   border: none;
   margin-top: 20px;
+  position: relative;   /* canvasの上に出す */
+  z-index: 2;           /* canvas(0)より上に表示 */
 }
 
+/* 占いボタン */
 button {
   padding: 15px 40px;
   font-size: 20px;
@@ -50,11 +55,12 @@ button {
   transition: 0.3s;
   margin-top: 20px;
   position: relative;
-  z-index: 1;
+  z-index: 2;  /* canvasの上 */
 }
 
 button:hover { transform: scale(1.1); }
 
+/* 占い結果表示 */
 #result {
   margin-top: 40px;
   font-size: 28px;
@@ -62,7 +68,7 @@ button:hover { transform: scale(1.1); }
   transform: translateY(20px);
   transition: 0.5s;
   position: relative;
-  z-index: 1;
+  z-index: 2;  /* canvasの上 */
 }
 
 .show {
@@ -73,6 +79,7 @@ button:hover { transform: scale(1.1); }
 </head>
 <body>
 
+<!-- 星背景用キャンバス -->
 <canvas id="stars"></canvas>
 
 <h1>🔮 神秘の占い 🔮</h1>
@@ -157,7 +164,6 @@ document.addEventListener("DOMContentLoaded", () => {
   btn.addEventListener("click", () => {
     const name = nameInput.value.trim() || "あなた";
 
-    // カテゴリごとにランダム
     const love = results.love[Math.floor(Math.random() * results.love.length)];
     const money = results.money[Math.floor(Math.random() * results.money.length)];
     const work = results.work[Math.floor(Math.random() * results.work.length)];
