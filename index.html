@@ -16,6 +16,7 @@ body {
   flex-direction: column;
   justify-content: center;
   overflow: hidden;
+  position: relative;
 }
 
 /* 星の背景 */
@@ -49,6 +50,7 @@ button {
   cursor: pointer;
   box-shadow: 0 0 20px #ff00cc;
   transition: 0.3s;
+  margin-top: 20px;
 }
 
 button:hover {
@@ -75,12 +77,11 @@ button:hover {
 <h1>🔮 神秘の占い 🔮</h1>
 <p>運命を知る準備はいい？</p>
 
-<button onclick="fortune()">運命を占う</button>
-
+<button id="btnFortune">運命を占う</button>
 <div id="result"></div>
 
 <script>
-function fortune() {
+document.addEventListener("DOMContentLoaded", () => {
   const results = [
     "🌟 大吉：奇跡が起こる予感",
     "💖 恋愛運MAX！素敵な出会いあり",
@@ -90,16 +91,16 @@ function fortune() {
     "🔥 挑戦すると運気上昇！"
   ];
 
-  const random = Math.floor(Math.random() * results.length);
+  const btn = document.getElementById("btnFortune");
   const resultDiv = document.getElementById("result");
 
-  resultDiv.textContent = results[random];
-  resultDiv.classList.remove("show");
-
-  setTimeout(() => {
-    resultDiv.classList.add("show");
-  }, 100);
-}
+  btn.addEventListener("click", () => {
+    const random = Math.floor(Math.random() * results.length);
+    resultDiv.textContent = results[random];
+    resultDiv.classList.remove("show");
+    setTimeout(() => resultDiv.classList.add("show"), 100);
+  });
+});
 </script>
 
 </body>
