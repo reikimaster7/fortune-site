@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <title>神秘の占い🔮</title>
 <style>
-/* 基本デザイン */
 body {
   margin: 0;
   height: 100vh;
@@ -16,7 +15,7 @@ body {
   position: relative;
 }
 
-/* 星のキャンバス */
+/* 星の背景 */
 #stars {
   position: absolute;
   top: 0; left: 0;
@@ -29,6 +28,14 @@ h1 {
   text-shadow: 0 0 20px #b388ff;
   position: relative;
   z-index: 1;
+}
+
+input[type="text"] {
+  padding: 10px;
+  font-size: 18px;
+  border-radius: 10px;
+  border: none;
+  margin-top: 20px;
 }
 
 button {
@@ -66,19 +73,20 @@ button:hover { transform: scale(1.1); }
 </head>
 <body>
 
-<!-- 星背景用キャンバス -->
 <canvas id="stars"></canvas>
 
 <h1>🔮 神秘の占い 🔮</h1>
-<p>運命を知る準備はいい？</p>
+<p>あなたの名前を入力して今日の運勢を占おう！</p>
 
-<!-- 占いボタン -->
-<button id="btnFortune">運命を占う</button>
+<input type="text" id="nameInput" placeholder="名前を入力">
+<br>
+<button id="btnFortune">占う</button>
+
 <div id="result"></div>
 
 <script>
 // ==========================
-// 星アニメーション
+// 星のアニメーション
 // ==========================
 const canvas = document.getElementById('stars');
 const ctx = canvas.getContext('2d');
@@ -124,25 +132,42 @@ window.addEventListener('resize', () => {
 // 占いボタン処理
 // ==========================
 document.addEventListener("DOMContentLoaded", () => {
-  const results = [
-    "🌟 大吉：奇跡が起こる予感",
-    "💖 恋愛運MAX！素敵な出会いあり",
-    "💰 金運アップ！チャンス到来",
-    "⚡ 注意：焦りは禁物",
-    "🌙 今日は自分を大切に",
-    "🔥 挑戦すると運気上昇！"
-  ];
+  const results = {
+    love: [
+      "💖 恋愛運MAX！素敵な出会いあり",
+      "💔 注意：今日は恋愛は慎重に",
+      "💞 チャンス到来！勇気を出して"
+    ],
+    money: [
+      "💰 金運アップ！臨時収入の予感",
+      "💸 注意：出費に気をつけて",
+      "🪙 チャンス到来！投資運あり"
+    ],
+    work: [
+      "⚡ 仕事運好調！効率UP",
+      "🛑 注意：焦らず進めよう",
+      "🔥 チャレンジすると運気上昇！"
+    ]
+  };
 
   const btn = document.getElementById("btnFortune");
   const resultDiv = document.getElementById("result");
+  const nameInput = document.getElementById("nameInput");
 
   btn.addEventListener("click", () => {
-    const random = Math.floor(Math.random() * results.length);
-    resultDiv.textContent = results[random];
+    const name = nameInput.value.trim() || "あなた";
+
+    // カテゴリごとにランダム
+    const love = results.love[Math.floor(Math.random() * results.love.length)];
+    const money = results.money[Math.floor(Math.random() * results.money.length)];
+    const work = results.work[Math.floor(Math.random() * results.work.length)];
+
+    resultDiv.innerHTML = `${name}さんの今日の運勢：<br>${love}<br>${money}<br>${work}`;
     resultDiv.classList.remove("show");
     setTimeout(() => resultDiv.classList.add("show"), 100);
   });
 });
 </script>
+
 </body>
 </html>
