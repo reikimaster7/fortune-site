@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <title>神秘の占い🔮</title>
 <style>
+/* 基本デザイン */
 body {
   margin: 0;
   height: 100vh;
@@ -65,16 +66,20 @@ button:hover { transform: scale(1.1); }
 </head>
 <body>
 
+<!-- 星背景用キャンバス -->
 <canvas id="stars"></canvas>
 
 <h1>🔮 神秘の占い 🔮</h1>
 <p>運命を知る準備はいい？</p>
 
+<!-- 占いボタン -->
 <button id="btnFortune">運命を占う</button>
 <div id="result"></div>
 
 <script>
-// 星のアニメーション
+// ==========================
+// 星アニメーション
+// ==========================
 const canvas = document.getElementById('stars');
 const ctx = canvas.getContext('2d');
 let w = canvas.width = window.innerWidth;
@@ -109,12 +114,15 @@ function animateStars() {
   requestAnimationFrame(animateStars);
 }
 animateStars();
+
 window.addEventListener('resize', () => {
   w = canvas.width = window.innerWidth;
   h = canvas.height = window.innerHeight;
 });
 
-// 占いボタン
+// ==========================
+// 占いボタン処理
+// ==========================
 document.addEventListener("DOMContentLoaded", () => {
   const results = [
     "🌟 大吉：奇跡が起こる予感",
