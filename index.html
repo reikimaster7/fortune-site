@@ -1,44 +1,104 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
 <meta charset="UTF-8">
-<title>今日の占い</title>
+<title>神秘の占い🔮</title>
+
 <style>
-body{
-font-family:sans-serif;
-text-align:center;
-background:#f3e8ff;
+body {
+  margin: 0;
+  height: 100vh;
+  background: radial-gradient(circle at center, #1a002f, #000);
+  color: white;
+  font-family: 'Segoe UI', sans-serif;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
 }
-button{
-padding:10px 20px;
-font-size:18px;
+
+/* 星の背景 */
+body::before {
+  content: "";
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  background: url("https://www.transparenttextures.com/patterns/stardust.png");
+  animation: moveStars 60s linear infinite;
+  opacity: 0.4;
+}
+
+@keyframes moveStars {
+  from { transform: translate(0,0); }
+  to { transform: translate(-500px,-500px); }
+}
+
+h1 {
+  font-size: 40px;
+  text-shadow: 0 0 20px #b388ff;
+}
+
+button {
+  padding: 15px 40px;
+  font-size: 20px;
+  border: none;
+  border-radius: 30px;
+  background: linear-gradient(45deg, #ff00cc, #3333ff);
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 0 20px #ff00cc;
+  transition: 0.3s;
+}
+
+button:hover {
+  transform: scale(1.1);
+}
+
+#result {
+  margin-top: 40px;
+  font-size: 28px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: 0.5s;
+}
+
+.show {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
 }
 </style>
 </head>
 
 <body>
 
-<h1>🔮 今日の運勢</h1>
-<button onclick="fortune()">占う</button>
+<h1>🔮 神秘の占い 🔮</h1>
+<p>運命を知る準備はいい？</p>
 
-<h2 id="result"></h2>
+<button onclick="fortune()">運命を占う</button>
+
+<div id="result"></div>
 
 <script>
-function fortune(){
+function fortune() {
+  const results = [
+    "🌟 大吉：奇跡が起こる予感",
+    "💖 恋愛運MAX！素敵な出会いあり",
+    "💰 金運アップ！チャンス到来",
+    "⚡ 注意：焦りは禁物",
+    "🌙 今日は自分を大切に",
+    "🔥 挑戦すると運気上昇！"
+  ];
 
-const fortunes=[
-"大吉！最高の一日",
-"中吉！良いことあり",
-"小吉！努力が実る",
-"吉！穏やかな日",
-"末吉！焦らない",
-"凶！今日は慎重に"
-];
+  const random = Math.floor(Math.random() * results.length);
+  const resultDiv = document.getElementById("result");
 
-const random=Math.floor(Math.random()*fortunes.length);
+  resultDiv.textContent = results[random];
+  resultDiv.classList.remove("show");
 
-document.getElementById("result").innerText=fortunes[random];
-
+  setTimeout(() => {
+    resultDiv.classList.add("show");
+  }, 100);
 }
 </script>
 

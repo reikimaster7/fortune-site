@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>今日の占い</title>
+<style>
+body{
+font-family:sans-serif;
+text-align:center;
+background:#f3e8ff;
+}
+button{
+padding:10px 20px;
+font-size:18px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>🔮 今日の運勢</h1>
+<button onclick="fortune()">占う</button>
+
+<h2 id="result"></h2>
+
+<script>
+function fortune(){
+
+const fortunes=[
+"大吉！最高の一日",
+"中吉！良いことあり",
+"小吉！努力が実る",
+"吉！穏やかな日",
+"末吉！焦らない",
+"凶！今日は慎重に"
+];
+
+const random=Math.floor(Math.random()*fortunes.length);
+
+document.getElementById("result").innerText=fortunes[random];
+
+}
+</script>
+
+</body>
+</html>
