@@ -15,13 +15,12 @@ body {
   position: relative;
 }
 
-/* 星背景用キャンバス */
 #stars {
   position: absolute;
   top: 0; left: 0;
   width: 100%; height: 100%;
   z-index: 0;
-  pointer-events: none; /* ここがポイント */
+  pointer-events: none;
 }
 
 h1 {
@@ -38,7 +37,7 @@ input[type="text"] {
   border: none;
   margin-top: 20px;
   position: relative;
-  z-index: 2; /* canvasより上 */
+  z-index: 2;
 }
 
 button {
@@ -60,7 +59,7 @@ button:hover { transform: scale(1.1); }
 
 #result {
   margin-top: 40px;
-  font-size: 28px;
+  font-size: 24px;
   opacity: 0;
   transform: translateY(20px);
   transition: 0.5s;
@@ -72,13 +71,21 @@ button:hover { transform: scale(1.1); }
   opacity: 1 !important;
   transform: translateY(0) !important;
 }
+
+.card-img {
+  width: 80px;
+  margin: 10px;
+  vertical-align: middle;
+  border-radius: 10px;
+  box-shadow: 0 0 10px #fff;
+}
 </style>
 </head>
 <body>
 
 <canvas id="stars"></canvas>
 
-<h1>🔮 神秘の占い 🔮</h1>
+<h1>🔮 神秘のタロット占い 🔮</h1>
 <p>あなたの名前を入力して今日の運勢を占おう！</p>
 
 <input type="text" id="nameInput" placeholder="名前を入力">
@@ -125,31 +132,30 @@ function animateStars() {
   requestAnimationFrame(animateStars);
 }
 animateStars();
-
 window.addEventListener('resize', () => {
   w = canvas.width = window.innerWidth;
   h = canvas.height = window.innerHeight;
 });
 
 // ==========================
-// 占いボタン処理
+// 占い処理（タロットカード付き）
 // ==========================
 document.addEventListener("DOMContentLoaded", () => {
   const results = {
     love: [
-      "💖 恋愛運MAX！素敵な出会いあり",
-      "💔 注意：今日は恋愛は慎重に",
-      "💞 チャンス到来！勇気を出して"
+      {text:"💖 恋愛運MAX！素敵な出会いあり", img:"https://upload.wikimedia.org/wikipedia/commons/2/2f/Tarot_11_Strength.jpg"},
+      {text:"💔 注意：今日は恋愛は慎重に", img:"https://upload.wikimedia.org/wikipedia/commons/5/5b/Tarot_15_Devil.jpg"},
+      {text:"💞 チャンス到来！勇気を出して", img:"https://upload.wikimedia.org/wikipedia/commons/0/0b/Tarot_06_Lovers.jpg"}
     ],
     money: [
-      "💰 金運アップ！臨時収入の予感",
-      "💸 注意：出費に気をつけて",
-      "🪙 チャンス到来！投資運あり"
+      {text:"💰 金運アップ！臨時収入の予感", img:"https://upload.wikimedia.org/wikipedia/commons/9/9b/Tarot_10_Wheel_of_Fortune.jpg"},
+      {text:"💸 注意：出費に気をつけて", img:"https://upload.wikimedia.org/wikipedia/commons/f/fd/Tarot_05_Hierophant.jpg"},
+      {text:"🪙 チャンス到来！投資運あり", img:"https://upload.wikimedia.org/wikipedia/commons/4/41/Tarot_01_Magician.jpg"}
     ],
     work: [
-      "⚡ 仕事運好調！効率UP",
-      "🛑 注意：焦らず進めよう",
-      "🔥 チャレンジすると運気上昇！"
+      {text:"⚡ 仕事運好調！効率UP", img:"https://upload.wikimedia.org/wikipedia/commons/8/88/Tarot_07_Chariot.jpg"},
+      {text:"🛑 注意：焦らず進めよう", img:"https://upload.wikimedia.org/wikipedia/commons/f/fc/Tarot_09_Hermit.jpg"},
+      {text:"🔥 チャレンジすると運気上昇！", img:"https://upload.wikimedia.org/wikipedia/commons/2/2c/Tarot_08_Strength.jpg"}
     ]
   };
 
@@ -164,7 +170,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const money = results.money[Math.floor(Math.random() * results.money.length)];
     const work = results.work[Math.floor(Math.random() * results.work.length)];
 
-    resultDiv.innerHTML = `${name}さんの今日の運勢：<br>${love}<br>${money}<br>${work}`;
+    resultDiv.innerHTML = `${name}さんの今日の運勢：<br>
+      <img src="${love.img}" class="card-img">${love.text}<br>
+      <img src="${money.img}" class="card-img">${money.text}<br>
+      <img src="${work.img}" class="card-img">${work.text}`;
+
     resultDiv.classList.remove("show");
     setTimeout(() => resultDiv.classList.add("show"), 100);
   });
