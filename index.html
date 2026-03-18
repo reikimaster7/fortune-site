@@ -102,7 +102,10 @@ btn.addEventListener("click",()=>{
   resultDiv.innerHTML=`${name}さん、カードを選んでください！`;
   cardsContainer.innerHTML="";
   const shuffled=shuffleArray(results).slice(0,3);
-  shuffled.forEach((cardData,index)=>{
+
+  // カード作成
+  const cards=[];
+  shuffled.forEach((cardData)=>{
     const card=document.createElement("div");
     card.className="card";
     card.innerHTML=`
@@ -113,13 +116,22 @@ btn.addEventListener("click",()=>{
         </div>
       </div>
     `;
-    card.addEventListener("click",()=>{
-      card.classList.add("flipped");
-      popupText.innerHTML=`<strong>${cardData.title}</strong><br>${cardData.detail}`;
-      popup.classList.add("show");
-    });
     cardsContainer.appendChild(card);
+    cards.push({element: card, data: cardData});
   });
+
+  // 自動で順番にめくる
+  let i=0;
+  function flipNext(){
+    if(i >= cards.length) return;
+    const c = cards[i];
+    c.element.classList.add("flipped");
+    popupText.innerHTML=`<strong>${c.data.title}</strong><br>${c.data.detail}`;
+    popup.classList.add("show");
+    i++;
+    setTimeout(flipNext, 800); // 0.8秒間隔で次のカードをめくる
+  }
+  flipNext();
 });
 </script>
 </body>
