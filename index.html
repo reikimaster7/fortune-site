@@ -21,6 +21,11 @@ button:hover{transform:scale(1.1);}
 .popup{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,0.9);padding:20px;border-radius:15px;box-shadow:0 0 30px #ff00cc;display:none;z-index:10;max-width:80%;text-align:center;}
 .popup.show{display:block;}
 .popup button{margin-top:10px;padding:10px 20px;border-radius:10px;cursor:pointer;}
+.spark{position:absolute;width:4px;height:4px;background:yellow;border-radius:50%;pointer-events:none;animation:sparkAnim 0.5s linear forwards;}
+@keyframes sparkAnim{
+  0%{opacity:1; transform:translate(0,0) scale(1);}
+  100%{opacity:0; transform:translate(var(--dx), var(--dy)) scale(0.5);}
+}
 </style>
 </head>
 <body>
@@ -73,6 +78,20 @@ const popup=document.getElementById("popup");
 const popupText=document.getElementById("popup-text");
 
 function shuffleArray(array){return array.sort(()=>Math.random()-0.5);}
+function createSparks(card){
+  for(let i=0;i<10;i++){
+    const spark=document.createElement("div");
+    spark.className="spark";
+    const dx=(Math.random()-0.5)*100 + "px";
+    const dy=(Math.random()-0.5)*100 + "px";
+    spark.style.setProperty('--dx', dx);
+    spark.style.setProperty('--dy', dy);
+    spark.style.left="50%";
+    spark.style.top="50%";
+    card.appendChild(spark);
+    setTimeout(()=>spark.remove(),500);
+  }
+}
 
 btn.addEventListener("click",()=>{
   const name=nameInput.value.trim()||"あなた";
@@ -91,7 +110,6 @@ btn.addEventListener("click",()=>{
       </div></div>`;
     cardsContainer.appendChild(card);
     cards.push({element:card,data:cardData,flipped:false});
-
     // 横スライド演出
     setTimeout(()=>{ card.style.opacity=1; card.style.transform='translateX(0)'; }, index*300);
   });
@@ -101,9 +119,12 @@ btn.addEventListener("click",()=>{
   function flipNext(){
     if(i>=cards.length) return;
     const c=cards[i];
-    if(!c.flipped){ c.element.classList.add("flipped"); c.flipped=true;
+    if(!c.flipped){
+      c.element.classList.add("flipped"); c.flipped=true;
+      createSparks(c.element);
       popupText.innerHTML=`<strong>${c.data.title}</strong><br>${c.data.detail}`;
-      popup.classList.add("show"); }
+      popup.classList.add("show");
+    }
     i++;
     setTimeout(flipNext,800);
   }
@@ -112,8 +133,10 @@ btn.addEventListener("click",()=>{
   cards.forEach(c=>{
     c.element.addEventListener("click",()=>{
       if(!c.flipped){ c.element.classList.add("flipped"); c.flipped=true;
+        createSparks(c.element);
         popupText.innerHTML=`<strong>${c.data.title}</strong><br>${c.data.detail}`;
-        popup.classList.add("show"); }
+        popup.classList.add("show");
+      }
     });
   });
 });
