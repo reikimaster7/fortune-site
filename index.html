@@ -2,7 +2,8 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<title>神秘の占い🔮</title>
+<title>神秘のタロット占い🔮</title>
+
 <style>
 body {
   margin: 0;
@@ -55,7 +56,9 @@ button {
   z-index: 2;
 }
 
-button:hover { transform: scale(1.1); }
+button:hover {
+  transform: scale(1.1);
+}
 
 #result {
   margin-top: 40px;
@@ -71,13 +74,22 @@ button:hover { transform: scale(1.1); }
   opacity: 1 !important;
   transform: translateY(0) !important;
 }
+
+.card-img {
+  width: 80px;
+  margin: 10px;
+  vertical-align: middle;
+  border-radius: 10px;
+  box-shadow: 0 0 10px #fff;
+}
 </style>
 </head>
+
 <body>
 
 <canvas id="stars"></canvas>
 
-<h1>🔮 神秘の占い 🔮</h1>
+<h1>🔮 神秘のタロット占い 🔮</h1>
 <p>あなたの名前を入力して今日の運勢を占おう！</p>
 
 <input type="text" id="nameInput" placeholder="名前を入力">
@@ -87,15 +99,18 @@ button:hover { transform: scale(1.1); }
 <div id="result"></div>
 
 <script>
-// 星アニメーション（そのまま）
+// ==========================
+// 星アニメーション
+// ==========================
 const canvas = document.getElementById('stars');
 const ctx = canvas.getContext('2d');
+
 let w = canvas.width = window.innerWidth;
 let h = canvas.height = window.innerHeight;
-const numStars = 100;
+
 const stars = [];
 
-for (let i = 0; i < numStars; i++) {
+for (let i = 0; i < 100; i++) {
   stars.push({
     x: Math.random() * w,
     y: Math.random() * h,
@@ -107,18 +122,22 @@ for (let i = 0; i < numStars; i++) {
 
 function animateStars() {
   ctx.clearRect(0,0,w,h);
+
   for (let s of stars) {
     ctx.beginPath();
     ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
     ctx.fillStyle = 'white';
     ctx.fill();
+
     s.x += s.dx;
     s.y += s.dy;
+
     if(s.x < 0) s.x = w;
     if(s.x > w) s.x = 0;
     if(s.y < 0) s.y = h;
     if(s.y > h) s.y = 0;
   }
+
   requestAnimationFrame(animateStars);
 }
 animateStars();
@@ -128,23 +147,26 @@ window.addEventListener('resize', () => {
   h = canvas.height = window.innerHeight;
 });
 
-// 占い（テキストのみ）
+// ==========================
+// タロット占い
+// ==========================
 document.addEventListener("DOMContentLoaded", () => {
+
   const results = {
     love: [
-      "💖 恋愛運MAX！素敵な出会いあり",
-      "💔 注意：今日は恋愛は慎重に",
-      "💞 チャンス到来！勇気を出して"
+      {text:"💖 恋愛運MAX！素敵な出会いあり", img:"images/tarot01.jpg"},
+      {text:"💔 注意：今日は恋愛は慎重に", img:"images/tarot02.jpg"},
+      {text:"💞 チャンス到来！勇気を出して", img:"images/tarot03.jpg"}
     ],
     money: [
-      "💰 金運アップ！臨時収入の予感",
-      "💸 注意：出費に気をつけて",
-      "🪙 チャンス到来！投資運あり"
+      {text:"💰 金運アップ！臨時収入の予感", img:"images/tarot04.jpg"},
+      {text:"💸 注意：出費に気をつけて", img:"images/tarot05.jpg"},
+      {text:"🪙 チャンス到来！投資運あり", img:"images/tarot06.jpg"}
     ],
     work: [
-      "⚡ 仕事運好調！効率UP",
-      "🛑 注意：焦らず進めよう",
-      "🔥 チャレンジすると運気上昇！"
+      {text:"⚡ 仕事運好調！効率UP", img:"images/tarot07.jpg"},
+      {text:"🛑 注意：焦らず進めよう", img:"images/tarot08.jpg"},
+      {text:"🔥 チャレンジすると運気上昇！", img:"images/tarot09.jpg"}
     ]
   };
 
@@ -153,16 +175,19 @@ document.addEventListener("DOMContentLoaded", () => {
   const nameInput = document.getElementById("nameInput");
 
   btn.addEventListener("click", () => {
+
     const name = nameInput.value.trim() || "あなた";
 
     const love = results.love[Math.floor(Math.random() * results.love.length)];
     const money = results.money[Math.floor(Math.random() * results.money.length)];
     const work = results.work[Math.floor(Math.random() * results.work.length)];
 
-    resultDiv.innerHTML = `${name}さんの今日の運勢：<br>
-      ${love}<br>
-      ${money}<br>
-      ${work}`;
+    resultDiv.innerHTML = `
+      ${name}さんの今日の運勢：<br><br>
+      <img src="${love.img}" class="card-img"> ${love.text}<br>
+      <img src="${money.img}" class="card-img"> ${money.text}<br>
+      <img src="${work.img}" class="card-img"> ${work.text}
+    `;
 
     resultDiv.classList.remove("show");
     setTimeout(() => resultDiv.classList.add("show"), 100);
