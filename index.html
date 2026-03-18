@@ -6,12 +6,12 @@
 <style>
 body {
   margin: 0;
-  height: 100vh;
+  min-height: 100vh;
   background: radial-gradient(circle at center, #1a002f, #000);
   color: white;
   font-family: 'Segoe UI', sans-serif;
   text-align: center;
-  overflow: hidden;
+  overflow-y: auto; /* 画面外でもスクロール可能 */
   position: relative;
 }
 
@@ -58,18 +58,23 @@ button {
 button:hover { transform: scale(1.1); }
 
 #result {
-  margin-top: 40px;
+  margin: 40px auto 60px auto;
   font-size: 24px;
   opacity: 0;
   transform: translateY(20px);
   transition: 0.5s;
   position: relative;
   z-index: 2;
+  max-width: 90%;
 }
 
 .show {
   opacity: 1 !important;
   transform: translateY(0) !important;
+}
+
+#result div {
+  margin-bottom: 20px; /* カード間の余白 */
 }
 
 .card-img {
@@ -131,14 +136,13 @@ function animateStars() {
   requestAnimationFrame(animateStars);
 }
 animateStars();
-
 window.addEventListener('resize', () => {
   w = canvas.width = window.innerWidth;
   h = canvas.height = window.innerHeight;
 });
 
 // ==========================
-// タロット占い（3枚順番にフェードイン）
+// タロット占い
 // ==========================
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -188,7 +192,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }, (index + 1) * 600);
     });
   });
-
 });
 </script>
 
