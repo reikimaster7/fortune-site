@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<title>神秘のタロット占い🔮</title>
+<title>神秘の占い🔮</title>
 <style>
 body {
   margin: 0;
@@ -71,21 +71,13 @@ button:hover { transform: scale(1.1); }
   opacity: 1 !important;
   transform: translateY(0) !important;
 }
-
-.card-img {
-  width: 80px;
-  margin: 10px;
-  vertical-align: middle;
-  border-radius: 10px;
-  box-shadow: 0 0 10px #fff;
-}
 </style>
 </head>
 <body>
 
 <canvas id="stars"></canvas>
 
-<h1>🔮 神秘のタロット占い 🔮</h1>
+<h1>🔮 神秘の占い 🔮</h1>
 <p>あなたの名前を入力して今日の運勢を占おう！</p>
 
 <input type="text" id="nameInput" placeholder="名前を入力">
@@ -95,9 +87,7 @@ button:hover { transform: scale(1.1); }
 <div id="result"></div>
 
 <script>
-// ==========================
-// 星アニメーション
-// ==========================
+// 星アニメーション（そのまま）
 const canvas = document.getElementById('stars');
 const ctx = canvas.getContext('2d');
 let w = canvas.width = window.innerWidth;
@@ -132,30 +122,29 @@ function animateStars() {
   requestAnimationFrame(animateStars);
 }
 animateStars();
+
 window.addEventListener('resize', () => {
   w = canvas.width = window.innerWidth;
   h = canvas.height = window.innerHeight;
 });
 
-// ==========================
-// 占い処理（タロット画像：リポジトリ内対応）
-// ==========================
+// 占い（テキストのみ）
 document.addEventListener("DOMContentLoaded", () => {
   const results = {
     love: [
-      {text:"💖 恋愛運MAX！素敵な出会いあり", img:"images/tarot01.jpg"},
-      {text:"💔 注意：今日は恋愛は慎重に", img:"images/tarot02.jpg"},
-      {text:"💞 チャンス到来！勇気を出して", img:"images/tarot03.jpg"}
+      "💖 恋愛運MAX！素敵な出会いあり",
+      "💔 注意：今日は恋愛は慎重に",
+      "💞 チャンス到来！勇気を出して"
     ],
     money: [
-      {text:"💰 金運アップ！臨時収入の予感", img:"images/tarot04.jpg"},
-      {text:"💸 注意：出費に気をつけて", img:"images/tarot05.jpg"},
-      {text:"🪙 チャンス到来！投資運あり", img:"images/tarot06.jpg"}
+      "💰 金運アップ！臨時収入の予感",
+      "💸 注意：出費に気をつけて",
+      "🪙 チャンス到来！投資運あり"
     ],
     work: [
-      {text:"⚡ 仕事運好調！効率UP", img:"images/tarot07.jpg"},
-      {text:"🛑 注意：焦らず進めよう", img:"images/tarot08.jpg"},
-      {text:"🔥 チャレンジすると運気上昇！", img:"images/tarot09.jpg"}
+      "⚡ 仕事運好調！効率UP",
+      "🛑 注意：焦らず進めよう",
+      "🔥 チャレンジすると運気上昇！"
     ]
   };
 
@@ -171,9 +160,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const work = results.work[Math.floor(Math.random() * results.work.length)];
 
     resultDiv.innerHTML = `${name}さんの今日の運勢：<br>
-      <img src="${love.img}" class="card-img">${love.text}<br>
-      <img src="${money.img}" class="card-img">${money.text}<br>
-      <img src="${work.img}" class="card-img">${work.text}`;
+      ${love}<br>
+      ${money}<br>
+      ${work}`;
 
     resultDiv.classList.remove("show");
     setTimeout(() => resultDiv.classList.add("show"), 100);
