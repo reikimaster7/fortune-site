@@ -7,12 +7,12 @@
 body { margin:0; min-height:100vh; background:radial-gradient(circle at center,#1a002f,#000); color:white; font-family:'Segoe UI',sans-serif; text-align:center; overflow-y:auto; position:relative;}
 #stars{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;}
 h1{font-size:40px;text-shadow:0 0 20px #b388ff;position:relative;z-index:1;}
-input[type="text"]{padding:10px;font-size:18px;border-radius:10px;border:none;margin-top:20px;position:relative;z-index:2;}
+input[type="text"]{padding:10px;font-size:18px;border-radius:10px;border:none;margin-top:20px;position:relative; z-index:2;}
 button{padding:15px 40px;font-size:20px;border:none;border-radius:30px;background:linear-gradient(45deg,#ff00cc,#3333ff);color:white;cursor:pointer;box-shadow:0 0 20px #ff00cc;transition:0.3s;margin-top:20px;position:relative;z-index:2;}
 button:hover{transform:scale(1.1);}
 #result{margin:40px auto 20px auto;font-size:24px;position:relative;z-index:2;max-width:90%;}
 #cards-container{margin-top:30px;display:flex;justify-content:center;flex-wrap:wrap;gap:20px;}
-.card{width:100px;height:150px;background:#333;border-radius:10px;cursor:pointer;perspective:600px;transition:transform 0.6s;position:relative;}
+.card{width:100px;height:150px;background:#333;border-radius:10px;cursor:pointer;perspective:600px;transition:transform 0.6s, opacity 0.6s; position:relative; opacity:0; transform: translateX(-50px);}
 .card-inner{width:100%;height:100%;transition: transform 0.6s;transform-style: preserve-3d;position:relative;}
 .card.flipped .card-inner{transform: rotateY(180deg);}
 .card-front,.card-back{position:absolute;width:100%;height:100%;backface-visibility:hidden;border-radius:10px;display:flex;align-items:center;justify-content:center;text-align:center;}
@@ -80,7 +80,8 @@ btn.addEventListener("click",()=>{
   cardsContainer.innerHTML="";
   const shuffled=shuffleArray(results).slice(0,3);
   const cards=[];
-  shuffled.forEach((cardData)=>{
+
+  shuffled.forEach((cardData,index)=>{
     const card=document.createElement("div");
     card.className="card";
     card.innerHTML=`<div class="card-inner">
@@ -90,6 +91,9 @@ btn.addEventListener("click",()=>{
       </div></div>`;
     cardsContainer.appendChild(card);
     cards.push({element:card,data:cardData,flipped:false});
+
+    // 横スライド演出
+    setTimeout(()=>{ card.style.opacity=1; card.style.transform='translateX(0)'; }, index*300);
   });
 
   // 自動めくり＋クリックで即めくり
