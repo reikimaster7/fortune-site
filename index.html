@@ -6,17 +6,17 @@
 <style>
 body {
   margin: 0;
-  min-height: 100vh;       /* 高さは最低100vh、内容に応じて伸びる */
+  min-height: 100vh;
   background: radial-gradient(circle at center, #1a002f, #000);
   color: white;
   font-family: 'Segoe UI', sans-serif;
   text-align: center;
-  overflow-y: auto;        /* コンテンツが増えたらスクロール */
+  overflow-y: auto; /* スクロール可能 */
   position: relative;
 }
 
 #stars {
-  position: fixed;          /* absolute → fixed に変更 */
+  position: fixed; /* canvas がスクロールに追従 */
   top: 0; left: 0;
   width: 100%; height: 100%;
   z-index: 0;
@@ -75,6 +75,7 @@ button:hover { transform: scale(1.1); }
 
 #result div {
   margin-bottom: 20px; /* カード間の余白 */
+  transition: opacity 0.5s;
 }
 
 .card-img {
@@ -142,7 +143,7 @@ window.addEventListener('resize', () => {
 });
 
 // ==========================
-// タロット占い
+// タロット占い（フェードアウト対応）
 // ==========================
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -175,7 +176,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const money = results.money[Math.floor(Math.random() * results.money.length)];
     const work = results.work[Math.floor(Math.random() * results.work.length)];
 
-    // 結果をリセット
+    // 前回のカードをフェードアウトして削除
+    const oldCards = resultDiv.querySelectorAll("div");
+    oldCards.forEach(div => {
+      div.style.opacity = 0;
+      setTimeout(() => div.remove(), 500); // 0.5秒で削除
+    });
+
     resultDiv.innerHTML = `${name}さんの今日の運勢：<br><br>`;
     resultDiv.classList.add("show");
 
@@ -184,7 +191,6 @@ document.addEventListener("DOMContentLoaded", () => {
       setTimeout(() => {
         const div = document.createElement("div");
         div.style.opacity = 0;
-        div.style.transition = "opacity 0.5s";
         div.innerHTML = `<img src="${card.img}" class="card-img"> ${card.text}`;
         resultDiv.appendChild(div);
         // フェードイン
