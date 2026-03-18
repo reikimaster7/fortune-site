@@ -14,134 +14,22 @@ body {
   overflow-y: auto;
   position: relative;
 }
-
-#stars {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  z-index: 0;
-  pointer-events: none;
-}
-
-h1 {
-  font-size: 40px;
-  text-shadow: 0 0 20px #b388ff;
-  position: relative;
-  z-index: 1;
-}
-
-input[type="text"] {
-  padding: 10px;
-  font-size: 18px;
-  border-radius: 10px;
-  border: none;
-  margin-top: 20px;
-  position: relative;
-  z-index: 2;
-}
-
-button {
-  padding: 15px 40px;
-  font-size: 20px;
-  border: none;
-  border-radius: 30px;
-  background: linear-gradient(45deg, #ff00cc, #3333ff);
-  color: white;
-  cursor: pointer;
-  box-shadow: 0 0 20px #ff00cc;
-  transition: 0.3s;
-  margin-top: 20px;
-  position: relative;
-  z-index: 2;
-}
-
-button:hover { transform: scale(1.1); }
-
-#result {
-  margin: 40px auto 60px auto;
-  font-size: 24px;
-  position: relative;
-  z-index: 2;
-  max-width: 90%;
-}
-
-#cards-container {
-  margin-top: 30px;
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 20px;
-}
-
-.card {
-  width: 100px;
-  height: 150px;
-  background: #333;
-  border-radius: 10px;
-  cursor: pointer;
-  perspective: 600px;
-  transition: transform 0.6s;
-  position: relative;
-}
-
-.card-inner {
-  width: 100%;
-  height: 100%;
-  transition: transform 0.6s;
-  transform-style: preserve-3d;
-  position: relative;
-}
-
-.card.flipped .card-inner {
-  transform: rotateY(180deg);
-}
-
-.card-front, .card-back {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  backface-visibility: hidden;
-  border-radius: 10px;
-}
-
-.card-front {
-  background: #444;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 30px;
-}
-
-.card-back {
-  transform: rotateY(180deg);
-  background: #222;
-  color: white;
-  padding: 10px;
-  text-align: center;
-}
-
-.popup {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: rgba(0,0,0,0.9);
-  padding: 20px;
-  border-radius: 15px;
-  box-shadow: 0 0 30px #ff00cc;
-  display: none;
-  z-index: 10;
-  max-width: 80%;
-}
-
-.popup.show {
-  display: block;
-}
-.popup button {
-  margin-top: 10px;
-  padding: 10px 20px;
-  border-radius: 10px;
-}
+#stars { position: fixed; top:0; left:0; width:100%; height:100%; z-index:0; pointer-events:none; }
+h1 { font-size: 40px; text-shadow:0 0 20px #b388ff; position: relative; z-index:1; }
+input[type="text"] { padding:10px; font-size:18px; border-radius:10px; border:none; margin-top:20px; position:relative; z-index:2; }
+button { padding:15px 40px; font-size:20px; border:none; border-radius:30px; background:linear-gradient(45deg,#ff00cc,#3333ff); color:white; cursor:pointer; box-shadow:0 0 20px #ff00cc; transition:0.3s; margin-top:20px; position:relative; z-index:2; }
+button:hover { transform:scale(1.1); }
+#result { margin:40px auto 20px auto; font-size:24px; position:relative; z-index:2; max-width:90%; }
+#cards-container { margin-top:30px; display:flex; justify-content:center; flex-wrap:wrap; gap:20px; }
+.card { width:100px; height:150px; background:#333; border-radius:10px; cursor:pointer; perspective:600px; transition:transform 0.6s; position:relative; }
+.card-inner { width:100%; height:100%; transition: transform 0.6s; transform-style: preserve-3d; position:relative; }
+.card.flipped .card-inner { transform: rotateY(180deg); }
+.card-front, .card-back { position:absolute; width:100%; height:100%; backface-visibility:hidden; border-radius:10px; display:flex; align-items:center; justify-content:center; text-align:center; }
+.card-front { background:#444; font-size:30px; }
+.card-back { transform:rotateY(180deg); background:#222; color:white; padding:10px; flex-direction:column; }
+.popup { position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); background:rgba(0,0,0,0.9); padding:20px; border-radius:15px; box-shadow:0 0 30px #ff00cc; display:none; z-index:10; max-width:80%; text-align:center; }
+.popup.show { display:block; }
+.popup button { margin-top:10px; padding:10px 20px; border-radius:10px; cursor:pointer; }
 </style>
 </head>
 <body>
@@ -164,51 +52,31 @@ button:hover { transform: scale(1.1); }
 </div>
 
 <script>
-// ==========================
-// 星アニメーション
-// ==========================
+// ========================== 星アニメーション ==========================
 const canvas = document.getElementById('stars');
 const ctx = canvas.getContext('2d');
 let w = canvas.width = window.innerWidth;
 let h = canvas.height = window.innerHeight;
 const stars = [];
-
-for (let i = 0; i < 100; i++) {
-  stars.push({
-    x: Math.random() * w,
-    y: Math.random() * h,
-    r: Math.random() * 2 + 1,
-    dx: (Math.random() - 0.5) * 0.5,
-    dy: (Math.random() - 0.5) * 0.5
-  });
+for (let i=0;i<100;i++){
+  stars.push({x:Math.random()*w,y:Math.random()*h,r:Math.random()*2+1,dx:(Math.random()-0.5)*0.5,dy:(Math.random()-0.5)*0.5});
 }
-
-function animateStars() {
+function animateStars(){
   ctx.clearRect(0,0,w,h);
-  for (let s of stars) {
+  for(const s of stars){
     ctx.beginPath();
-    ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
-    ctx.fillStyle = 'white';
-    ctx.fill();
-    s.x += s.dx;
-    s.y += s.dy;
-    if(s.x < 0) s.x = w;
-    if(s.x > w) s.x = 0;
-    if(s.y < 0) s.y = h;
-    if(s.y > h) s.y = 0;
+    ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+    ctx.fillStyle='white'; ctx.fill();
+    s.x+=s.dx; s.y+=s.dy;
+    if(s.x<0)s.x=w;if(s.x>w)s.x=0;if(s.y<0)s.y=h;if(s.y>h)s.y=0;
   }
   requestAnimationFrame(animateStars);
 }
 animateStars();
-window.addEventListener('resize', () => {
-  w = canvas.width = window.innerWidth;
-  h = canvas.height = window.innerHeight;
-});
+window.addEventListener('resize',()=>{ w=canvas.width=window.innerWidth; h=canvas.height=window.innerHeight; });
 
-// ==========================
-// タロット占い
-// ==========================
-const results = [
+// ========================== タロット占い ==========================
+const results=[
   {title:"💖 恋愛運MAX！素敵な出会いあり", img:"./images/tarot01.jpg", detail:"今日は積極的に行動すると吉。気になる人に声をかけてみよう！"},
   {title:"💔 注意：今日は恋愛は慎重に", img:"./images/tarot02.jpg", detail:"焦らず、冷静に相手の気持ちを観察しよう。"},
   {title:"💞 チャンス到来！勇気を出して", img:"./images/tarot03.jpg", detail:"新しい出会いやチャンスがありそう。勇気を持って！"},
@@ -220,46 +88,39 @@ const results = [
   {title:"🔥 チャレンジすると運気上昇！", img:"./images/tarot09.jpg", detail:"新しいことに挑戦すると運気アップ！"}
 ];
 
-const btn = document.getElementById("btnFortune");
-const resultDiv = document.getElementById("result");
-const cardsContainer = document.getElementById("cards-container");
-const nameInput = document.getElementById("nameInput");
-const popup = document.getElementById("popup");
-const popupText = document.getElementById("popup-text");
+const btn=document.getElementById("btnFortune");
+const resultDiv=document.getElementById("result");
+const cardsContainer=document.getElementById("cards-container");
+const nameInput=document.getElementById("nameInput");
+const popup=document.getElementById("popup");
+const popupText=document.getElementById("popup-text");
 
-function shuffleArray(array) {
-  return array.sort(() => Math.random() - 0.5);
-}
+function shuffleArray(array){ return array.sort(()=>Math.random()-0.5); }
 
-btn.addEventListener("click", () => {
-  const name = nameInput.value.trim() || "あなた";
-  resultDiv.innerHTML = `${name}さん、カードを選んでください！`;
-  cardsContainer.innerHTML = "";
-
-  // シャッフルして3枚表示
-  const shuffled = shuffleArray(results).slice(0,3);
-
-  shuffled.forEach((cardData, index) => {
-    const card = document.createElement("div");
-    card.className = "card";
-    card.innerHTML = `
+btn.addEventListener("click",()=>{
+  const name=nameInput.value.trim()||"あなた";
+  resultDiv.innerHTML=`${name}さん、カードを選んでください！`;
+  cardsContainer.innerHTML="";
+  const shuffled=shuffleArray(results).slice(0,3);
+  shuffled.forEach((cardData,index)=>{
+    const card=document.createElement("div");
+    card.className="card";
+    card.innerHTML=`
       <div class="card-inner">
         <div class="card-front">❓</div>
         <div class="card-back">
-          <img src="${cardData.img}" style="width:80px;border-radius:8px"><br>
-          ${cardData.title}
+          <img src="${cardData.img}" style="width:80px;border-radius:8px"><br>${cardData.title}
         </div>
       </div>
     `;
-    card.addEventListener("click", () => {
+    card.addEventListener("click",()=>{
       card.classList.add("flipped");
-      popupText.innerHTML = `<strong>${cardData.title}</strong><br>${cardData.detail}`;
+      popupText.innerHTML=`<strong>${cardData.title}</strong><br>${cardData.detail}`;
       popup.classList.add("show");
     });
     cardsContainer.appendChild(card);
   });
 });
 </script>
-
 </body>
 </html>
