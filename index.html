@@ -6,12 +6,12 @@
 <style>
 body {
   margin: 0;
-  min-height: 100vh;
+  min-height: 100vh;       /* 最低高さだけ固定 */
   background: radial-gradient(circle at center, #1a002f, #000);
   color: white;
   font-family: 'Segoe UI', sans-serif;
   text-align: center;
-  overflow-y: auto; /* 画面外でもスクロール可能 */
+  overflow-y: auto;        /* 内容が増えたらスクロール */
   position: relative;
 }
 
@@ -136,6 +136,7 @@ function animateStars() {
   requestAnimationFrame(animateStars);
 }
 animateStars();
+
 window.addEventListener('resize', () => {
   w = canvas.width = window.innerWidth;
   h = canvas.height = window.innerHeight;
